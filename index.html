@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Roxy Voice</title>
+</head>
+<body>
+  <h1>🔊 Roxy Voice Test</h1>
+  <button onclick="speakRoxy()">Click to Speak</button>
+
+  <script>
+    function speakRoxy() {
+      const synth = window.speechSynthesis;
+      const voices = synth.getVoices();
+      console.log("Voices available:", voices);
+
+      let selectedVoice = voices.find(v =>
+        v.name.toLowerCase().includes("female") ||
+        v.name.toLowerCase().includes("en-us") ||
+        v.name.toLowerCase().includes("google")
+      ) || voices[0];
+
+      if (!selectedVoice) {
+        console.warn("No voice found.");
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance("Hello , I am Roxy. How can I assist you?");
+      utterance.voice = selectedVoice;
+      utterance.pitch = 1.2;
+      utterance.rate = 0.5
+      ;
+      synth.speak(utterance);
+    }
+
+    // Load voices manually
+    window.speechSynthesis.onvoiceschanged = () => {
+      console.log("Voices loaded.");
+    };
+  </script>
+</body>
+</html>
